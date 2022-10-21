@@ -170,7 +170,7 @@ function pmprokm_after_change_membership_level($level_id, $user_id) {
     }
 
     //user cancelled
-    if(!empty($pmprokm_options['track_pmpro_cancel']) && pmpro_hasMembershipLevel(0, $user_id)) {
+    if(!empty($pmprokm_options['track_pmpro_cancel']) && empty($level_id)) {
         KM::record('Membership Level Cancelled');
     }
 
@@ -178,7 +178,7 @@ function pmprokm_after_change_membership_level($level_id, $user_id) {
 add_action('pmpro_after_change_membership_level', 'pmprokm_after_change_membership_level', 10, 2);
 
 //User checks out
-function pmprokm_after_checkout($user_id) {
+function pmprokm_after_checkout( $user_id, $order ) {
 
     global $current_user, $pmprokm_options, $discount_code;
 
@@ -189,7 +189,6 @@ function pmprokm_after_checkout($user_id) {
 	pmprokm_identify($user_id);
 
     $order = new MemberOrder;
-    $order->getLastMemberOrder($user_id, 'success');
     $level = pmpro_getLevel($order->membership_id);
 		
     if(!empty($pmprokm_options['track_pmpro_checkout'])) {
@@ -217,7 +216,7 @@ function pmprokm_after_checkout($user_id) {
     if($is_trial && !empty($pmprokm_options['track_pmpro_trials']))
         KM::record('Started Trial');
 }
-add_action('pmpro_after_checkout', 'pmprokm_after_checkout');
+add_action('pmpro_after_checkout', 'pmprokm_after_checkout', 10, 2);
 
 
 
