@@ -139,7 +139,7 @@ function pmprokm_template_redirect() {
 
         //include selected level if we're on che checkout page
         if($post->ID == $pmpro_pages['checkout']) {
-            $level = pmpro_getLevel($_REQUEST['level']);
+            $level  = pmpro_getLevelAtCheckout();
             $event .= ' (' . $level->name . ')';
         }
 
