@@ -188,7 +188,6 @@ function pmprokm_after_checkout( $user_id, $order ) {
 	//switch KM identity to affected user
 	pmprokm_identify($user_id);
 
-    $order = new MemberOrder;
     $level = pmpro_getLevel($order->membership_id);
 		
     if(!empty($pmprokm_options['track_pmpro_checkout'])) {
